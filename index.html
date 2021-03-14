@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Flight Search</title>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- import the webpage's javascript file -->
+    <script src="/new-script.js" defer></script>
+  </head>
+  <body>
+    <h1>Flight Search</h1>
+<form id="params">
+    <p></p>
+    Departure City: <input type="text" id="depart_city" /> <br />
+    <br />
+    Arrival City: <input type="text" id="arrive_city" /> <br />
+    <br />
+    Currency: <input type="text" id="currency" /> <br /><br />
+    Departure Date:
+    <input
+      type="date"
+      id="depart_date"
+      name="depart_date"
+      min="2020-01-01"
+      max="2030-12-31"
+    />
+    <br /><br />
+    Return Date:
+    <input
+      type="date"
+      id="return_date"
+      name="return_date"
+      min="2020-01-01"
+      max="2030-12-31"
+    />
+
+    <p id="demo"></p>
+    <p id="demo2"></p>
+    <p id="demo3"></p>
+    <p id="demo4"></p>
+    <button onclick="getParams()">Submit</button>
+      </form>
+
+  </body>
+</html>
 
