@@ -1,32 +1,13 @@
 const REACT_APP_API_KEY = "902bd3bd07msh3bf09281e0f8dd9p1d823cjsn1cfe883a7323";
 
-let depart_city = "NYC";
-let arrive_city = "anywhere";
-let currency = "USD";
-let depart_date = "anytime";
-let return_date = "anytime";
-
-function getParams() {
-  
-  
-  depart_city = document.getElementById("depart_city").value;
-  document.getElementById("demo").innerHTML = depart_city;
-
-  arrive_city = document.getElementById("arrive_city").value;
-  document.getElementById("demo2").innerHTML = arrive_city;
-
-  currency = document.getElementById("currency").value;
-  document.getElementById("demo3").innerHTML = currency;
-
-  depart_date = document.getElementById("depart_date").value;
-  document.getElementById("demo4").innerHTML = depart_date;
-  return_date = document.getElementById("return_date").value;
-  console.log("in param function" + depart_city);
-}
-
-console.log(depart_city);
+let depart_city;
+let arrive_city;
+let currency;
+let depart_date;
+let return_date;
 
 async function fetchAPI() {
+  console.log("in fetchAPI function " + depart_city);
   const reqOptions = {
     method: "GET",
     headers: {
@@ -46,5 +27,23 @@ async function fetchAPI() {
   .catch(err=>{console.error(err)});
 }
 
-fetchAPI();
+function getParams() {
+  event.preventDefault();
+  depart_city = "";
+  arrive_city = "anywhere";
+  currency = "USD";
+  depart_date = "anytime";
+  return_date = "anytime";
+  
+  depart_city = document.getElementById("depart_city").value;
+  arrive_city = document.getElementById("arrive_city").value;
+  currency = document.getElementById("currency").value;
+  depart_date = document.getElementById("depart_date").value;
+  return_date = document.getElementById("return_date").value;
+  
+  console.log("in param function " + depart_city);
+  fetchAPI();
+}
+
+
 
