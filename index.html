@@ -15,38 +15,31 @@
   </head>
   <body>
     <h1>Budget Flights</h1>
-<form id="params">
-    <p></p>
-    Departure City: <input type="text" id="depart_city" /> <br />
-    <br />
-    Arrival City: <input type="text" id="arrive_city" /> <br />
-    <br />
-    Currency: <input type="text" id="currency" /> <br /><br />
-    Departure Date:
-    <input
-      type="date"
-      id="depart_date"
-      name="depart_date"
-      min="2020-01-01"
-      max="2030-12-31"
-    />
-    <br /><br />
-    Return Date:
-    <input
-      type="date"
-      id="return_date"
-      name="return_date"
-      min="2020-01-01"
-      max="2030-12-31"
-    />
+    <form id="params">
+      <p></p>
+      Departure Location: <input type="text" id="depart_loc" required />
+      <br /><br />
+      Arrival Location: <input type="text" id="arrive_loc" /> <br /><br />
+      Currency: <input type="text" id="currency" /> <br /><br />
+      Departure Date:
+      <input
+        type="date"
+        id="depart_date"
+        name="depart_date"
+        min="2020-01-01"
+        max="2030-12-31"
+      />
+      <br /><br />
+      Return Date:
+      <input
+        type="date"
+        id="return_date"
+        name="return_date"
+        min="2020-01-01"
+        max="2030-12-31"
+      />
 
-    <p id="demo"></p>
-    <p id="demo2"></p>
-    <p id="demo3"></p>
-    <p id="demo4"></p>
-    <button onclick="getParams()">Submit</button>
-      </form>
-
+      <button onclick="getParams()">Submit</button>
+    </form>
   </body>
 </html>
-
