@@ -1,3 +1,6 @@
+//Note: PLEASE DO NOT USE KEY
+// I would make the key an environment variable but I'm not sure how to do it with JavaScript
+// I believe an .env file does not work for vanilla JavaScript
 const REACT_APP_API_KEY = "902bd3bd07msh3bf09281e0f8dd9p1d823cjsn1cfe883a7323";
 
 //takes location and currency as arguments
@@ -27,9 +30,13 @@ async function getPlace(location, currency) {
     .then(places => {
       placeID = places.Places[0].PlaceId; //gets first Skyscanner placeID
     })
+    .then(places => {
+      document.getElementById("Error").value = "";  //if successful, remove error message
+    })
     .catch(error => {
       //catches error
-      console.log(error);
+      document.getElementById("Error").innerHTML =
+        "Please Enter A Valid Departure and Arrival Location";  //if not successful, print error message
     });
 
   return placeID;
@@ -66,46 +73,127 @@ async function getFlights(
       return_date,
     reqOptions
   )
-    .then(flights_response => flights_response.json())
+    .then(flights_response => flights_response.json()) //turn promise into JSON
     .catch(error => {
       //catches error
-      console.log(error);
+      document.getElementById("Error").innerHTML =
+        "Please Enter A Valid Departure and Arrival Location";
     });
 
   return flights_response;
 }
 
+//takes a flight as an argument
+//returns only the date portion
+function getDepartureDate(flightOption) {
+  let date = flightOption.OutboundLeg.DepartureDate.slice(0, 10);
+  return date;
+}
+
+//takes a flight and the flight places as arguments
+//returns the name of the place that matches the flight's origin id
+function getDepartLoc(flightOption, flightPlaces) {
+  let flight_loc_name = "";
+
+  //loop through every place in flightPlaces
+  for (let i = 0; i < Object.keys(flightPlaces).length; i++) {
+    //compare place ids from flight and places and get name of place
+    if (flightPlaces[i].PlaceId == flightOption.OutboundLeg.OriginId) {
+      flight_loc_name = flightPlaces[i].Name;
+    }
+  }
+
+  return flight_loc_name;
+}
+
+//similar to getDepartLoc function
+//takes a flight and the flight places as arguments
+//returns the name of the place that matches the flight's destination id
+function getArrivalLoc(flightOption, flightPlaces) {
+  let flight_loc_name = "";
+
+  //loop through every place in flightPlaces
+  for (let i = 0; i < Object.keys(flightPlaces).length; i++) {
+    //compare place ids from flight and places and get name of place
+    if (flightPlaces[i].PlaceId == flightOption.OutboundLeg.DestinationId) {
+      flight_loc_name = flightPlaces[i].Name;
+    }
+  }
+
+  return flight_loc_name;
+}
+
+//takes a flight and the flight carriers as arguments
+//returns the name of the airline that matches the flight's carrier id
+function getAirline(flightOption, flightCarriers) {
+  let flight_carrier_name = "";
+
+  //loop through every carrier in flightCarriers
+  for (let i = 0; i < Object.keys(flightCarriers).length; i++) {
+    //compare carrier ids from flight and carriers and get name of carrier
+    if (flightCarriers[i].CarrierId == flightOption.OutboundLeg.CarrierIds[0]) {
+      flight_carrier_name = flightCarriers[i].Name;
+    }
+  }
+
+  return flight_carrier_name;
+}
+
+//takes a flight and the flight currency as arguments
+//returns the price with the currency symbol in front of it
+function getPrice(flightOption, flightCurrencies) {
+  return flightCurrencies[0].Symbol + flightOption.MinPrice;
+}
+
+//takes JSON of flights as argument
+//creates a table of flight info
+//Note: Skyscanner API does not give inbound dates so I have excluded it from the table
 async function createTable(flights) {
   let table = document.createElement("table"); //create table
-  let col = ["Departure Date", "Departure Location", "Arrival Location", "Airline", "Price"];
-    
-  //Need to create table from JSON file here
+  let col = [
+    "Departure Date",
+    "Departure Location",
+    "Arrival Location",
+    "Airline",
+    "Price"
+  ];
+
+  //create headers
   let tr = table.insertRow(-1);
-  for (let i = 0; i < col.length; i++){
+  for (let i = 0; i < col.length; i++) {
     let th = document.createElement("th");
     th.innerHTML = col[i];
     tr.appendChild(th);
   }
-  
-  for (let i = 0; i < Object.keys(flights.Quotes).length; i++){
-    tr = table.insertRow(-1);
-    for (let j = 0; j < col.length; j++){
-      let tabCell = tr.insertCell(-1);
-      if (j == 0){
-        tabCell.innerHTML = flights.Quotes[i].OutboundLeg.DepartureDate;
-      } else if (j == 1){
-        tabCell.innerHTML = flights.Quotes[i].OutboundLeg.OriginId;
-      } else if (j == 2){
-        tabCell.innerHTML = flights.Quotes[i].OutboundLeg.DestinationId;
-      } else if (j == 3){
-        tabCell.innerHTML = flights.Quotes[i].OutboundLeg.CarrierIds[0];
-      } else{
-        tabCell.innerHTML = flights.Quotes[i].MinPrice;
+
+  for (let i = 0; i < Object.keys(flights.Quotes).length; i++) {
+    //loop through every flight
+    tr = table.insertRow(-1); //create row
+
+    for (let j = 0; j < col.length; j++) {
+      //loop through every column
+      let tabCell = tr.insertCell(-1); //create cell
+
+      if (j == 0) {
+        //departure date column
+        tabCell.innerHTML = getDepartureDate(flights.Quotes[i]);
+      } else if (j == 1) {
+        //departure location column
+        tabCell.innerHTML = getDepartLoc(flights.Quotes[i], flights.Places);
+      } else if (j == 2) {
+        //arrival location column
+        tabCell.innerHTML = getArrivalLoc(flights.Quotes[i], flights.Places);
+      } else if (j == 3) {
+        //airline column
+        tabCell.innerHTML = getAirline(flights.Quotes[i], flights.Carriers);
+      } else {
+        //price column
+        tabCell.innerHTML = getPrice(flights.Quotes[i], flights.Currencies);
       }
     }
   }
-  
-  let divContainer = document.getElementById("showData");
+
+  let divContainer = document.getElementById("show_data");
   divContainer.innerHTML = "";
   divContainer.appendChild(table);
 }
@@ -117,10 +205,10 @@ async function getParams() {
   let currency;
   let depart_date;
   let return_date;
-  
+
   let depart_placeID;
   let arrive_placeID;
-  
+
   let flights;
 
   //default for parameters
@@ -134,12 +222,10 @@ async function getParams() {
   if (document.getElementById("depart_loc").value != "") {
     depart_loc = document.getElementById("depart_loc").value;
     depart_placeID = await getPlace(depart_loc, currency);
-    console.log("Depart PlaceID: " + depart_placeID);
   }
   if (document.getElementById("arrive_loc").value != "") {
     arrive_loc = document.getElementById("arrive_loc").value;
     arrive_placeID = await getPlace(arrive_loc, currency);
-    console.log("Arrive PlaceID: " + arrive_placeID);
   }
   if (document.getElementById("currency").value != "") {
     currency = document.getElementById("currency").value;
@@ -151,7 +237,11 @@ async function getParams() {
     return_date = document.getElementById("return_date").value;
   }
 
-  if (depart_loc != "" && arrive_loc != "") {
+  if (
+    depart_loc != "" &&
+    arrive_loc != "" &&
+    document.getElementById("Error").value == ""
+  ) {
     document.getElementById("Error").innerHTML = ""; //remove error message
 
     flights = await getFlights(
@@ -161,12 +251,12 @@ async function getParams() {
       depart_date,
       return_date
     );
-    
+
     await createTable(flights); //create table from JSON
   } else {
     //print error message if depart_loc and arrive_loc are not inputted
     document.getElementById("Error").innerHTML =
-      "Please Enter A Departure and Arrival Location";
+      "Please Enter A Valid Departure and Arrival Location";
   }
 
   //clear input fields
@@ -175,4 +265,5 @@ async function getParams() {
   document.getElementById("currency").value = "";
   document.getElementById("depart_date").value = "";
   document.getElementById("return_date").value = "";
+  document.getElementById("show_data").value = "";
 }
