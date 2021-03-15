@@ -3,8 +3,8 @@ const REACT_APP_API_KEY = "902bd3bd07msh3bf09281e0f8dd9p1d823cjsn1cfe883a7323";
 //takes location and currency as arguments
 //finds the Skyscanner placeID of the location
 async function getPlace(location, currency) {
-  let placeID; 
-  
+  let placeID;
+
   const reqOptions = {
     method: "GET",
     headers: {
@@ -25,9 +25,10 @@ async function getPlace(location, currency) {
   )
     .then(place_response => place_response.json()) //turn promise into JSON
     .then(places => {
-      placeID = places.Places[0].PlaceId;  //gets first Skyscanner placeID
+      placeID = places.Places[0].PlaceId; //gets first Skyscanner placeID
     })
-    .catch(error => {    //catches error
+    .catch(error => {
+      //catches error
       console.log(error);
     });
 
@@ -51,8 +52,8 @@ async function getFlights(
     }
   };
 
-   //fetch API
-  let flight_response = await fetch(
+  //fetch API
+  let flights_response = await fetch(
     "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/" +
       currency +
       "/en-US/" +
@@ -65,14 +66,48 @@ async function getFlights(
       return_date,
     reqOptions
   )
-    .then(response => {
-      console.log(response);
-    })
+    .then(flights_response => flights_response.json())
     .catch(error => {
+      //catches error
       console.log(error);
     });
 
-  return;
+  return flights_response;
+}
+
+async function createTable(flights) {
+  let table = document.createElement("table"); //create table
+  let col = ["Departure Date", "Departure Location", "Arrival Location", "Airline", "Price"];
+    
+  //Need to create table from JSON file here
+  let tr = table.insertRow(-1);
+  for (let i = 0; i < col.length; i++){
+    let th = document.createElement("th");
+    th.innerHTML = col[i];
+    tr.appendChild(th);
+  }
+  
+  for (let i = 0; i < Object.keys(flights.Quotes).length; i++){
+    tr = table.insertRow(-1);
+    for (let j = 0; j < col.length; j++){
+      let tabCell = tr.insertCell(-1);
+      if (j == 0){
+        tabCell.innerHTML = flights.Quotes[i].OutboundLeg.DepartureDate;
+      } else if (j == 1){
+        tabCell.innerHTML = flights.Quotes[i].OutboundLeg.OriginId;
+      } else if (j == 2){
+        tabCell.innerHTML = flights.Quotes[i].OutboundLeg.DestinationId;
+      } else if (j == 3){
+        tabCell.innerHTML = flights.Quotes[i].OutboundLeg.CarrierIds[0];
+      } else{
+        tabCell.innerHTML = flights.Quotes[i].MinPrice;
+      }
+    }
+  }
+  
+  let divContainer = document.getElementById("showData");
+  divContainer.innerHTML = "";
+  divContainer.appendChild(table);
 }
 
 async function getParams() {
@@ -82,12 +117,15 @@ async function getParams() {
   let currency;
   let depart_date;
   let return_date;
+  
   let depart_placeID;
   let arrive_placeID;
+  
+  let flights;
 
   //default for parameters
   depart_loc = "";
-  arrive_loc = "anywhere";
+  arrive_loc = "";
   currency = "USD";
   depart_date = "anytime";
   return_date = "anytime";
@@ -95,12 +133,12 @@ async function getParams() {
   //get inputs if they not blank
   if (document.getElementById("depart_loc").value != "") {
     depart_loc = document.getElementById("depart_loc").value;
-    depart_placeID = await getPlace(depart_loc, currency); //wait for this function to finish before continuing; prevents depart_placeID = undefined
+    depart_placeID = await getPlace(depart_loc, currency);
     console.log("Depart PlaceID: " + depart_placeID);
   }
   if (document.getElementById("arrive_loc").value != "") {
     arrive_loc = document.getElementById("arrive_loc").value;
-    arrive_placeID = await getPlace(arrive_loc, currency); //wait for this function to finish before continuing; prevents arrive_placeID = undefined
+    arrive_placeID = await getPlace(arrive_loc, currency);
     console.log("Arrive PlaceID: " + arrive_placeID);
   }
   if (document.getElementById("currency").value != "") {
@@ -113,13 +151,23 @@ async function getParams() {
     return_date = document.getElementById("return_date").value;
   }
 
-  await getFlights(
-    depart_placeID,
-    arrive_placeID,
-    currency,
-    depart_date,
-    return_date
-  );
+  if (depart_loc != "" && arrive_loc != "") {
+    document.getElementById("Error").innerHTML = ""; //remove error message
+
+    flights = await getFlights(
+      depart_placeID,
+      arrive_placeID,
+      currency,
+      depart_date,
+      return_date
+    );
+    
+    await createTable(flights); //create table from JSON
+  } else {
+    //print error message if depart_loc and arrive_loc are not inputted
+    document.getElementById("Error").innerHTML =
+      "Please Enter A Departure and Arrival Location";
+  }
 
   //clear input fields
   document.getElementById("depart_loc").value = "";
