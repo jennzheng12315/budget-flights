@@ -31,12 +31,7 @@ async function getPlace(location, currency) {
       placeID = places.Places[0].PlaceId; //gets first Skyscanner placeID
     })
     .then(places => {
-      document.getElementById("Error").value = "";  //if successful, remove error message
-    })
-    .catch(error => {
-      //catches error
-      document.getElementById("Error").innerHTML =
-        "Please Enter A Valid Departure and Arrival Location";  //if not successful, print error message
+      document.getElementById("Error").value = ""; //if successful, remove error message
     });
 
   return placeID;
@@ -73,12 +68,7 @@ async function getFlights(
       return_date,
     reqOptions
   )
-    .then(flights_response => flights_response.json()) //turn promise into JSON
-    .catch(error => {
-      //catches error
-      document.getElementById("Error").innerHTML =
-        "Please Enter A Valid Departure and Arrival Location";
-    });
+    .then(flights_response => flights_response.json()); //turn promise into JSON
 
   return flights_response;
 }
@@ -198,7 +188,7 @@ async function createTable(flights) {
   divContainer.appendChild(table);
 }
 
-async function getParams() {
+async function handleSubmit() {
   event.preventDefault();
   let depart_loc;
   let arrive_loc;
@@ -217,46 +207,53 @@ async function getParams() {
   currency = "USD";
   depart_date = "anytime";
   return_date = "anytime";
+  try {
+    //get inputs if they not blank
+    if (document.getElementById("depart_loc").value != "") {
+      depart_loc = document.getElementById("depart_loc").value;
+      depart_placeID = await getPlace(depart_loc, currency);
+    }
+    if (document.getElementById("arrive_loc").value != "") {
+      arrive_loc = document.getElementById("arrive_loc").value;
+      arrive_placeID = await getPlace(arrive_loc, currency);
+    }
+    if (document.getElementById("currency").value != "") {
+      currency = document.getElementById("currency").value;
+    }
+    if (document.getElementById("depart_date").value != "") {
+      depart_date = document.getElementById("depart_date").value;
+    }
+    if (document.getElementById("return_date").value != "") {
+      return_date = document.getElementById("return_date").value;
+    }
 
-  //get inputs if they not blank
-  if (document.getElementById("depart_loc").value != "") {
-    depart_loc = document.getElementById("depart_loc").value;
-    depart_placeID = await getPlace(depart_loc, currency);
-  }
-  if (document.getElementById("arrive_loc").value != "") {
-    arrive_loc = document.getElementById("arrive_loc").value;
-    arrive_placeID = await getPlace(arrive_loc, currency);
-  }
-  if (document.getElementById("currency").value != "") {
-    currency = document.getElementById("currency").value;
-  }
-  if (document.getElementById("depart_date").value != "") {
-    depart_date = document.getElementById("depart_date").value;
-  }
-  if (document.getElementById("return_date").value != "") {
-    return_date = document.getElementById("return_date").value;
-  }
+    if (
+      depart_loc != "" &&
+      arrive_loc != "" &&
+      document.getElementById("Error").value == ""
+    ) {
+      document.getElementById("Error").innerHTML = ""; //remove error message
 
-  if (
-    depart_loc != "" &&
-    arrive_loc != "" &&
-    document.getElementById("Error").value == ""
-  ) {
-    document.getElementById("Error").innerHTML = ""; //remove error message
+      flights = await getFlights(
+        depart_placeID,
+        arrive_placeID,
+        currency,
+        depart_date,
+        return_date
+      );
 
-    flights = await getFlights(
-      depart_placeID,
-      arrive_placeID,
-      currency,
-      depart_date,
-      return_date
-    );
-
-    await createTable(flights); //create table from JSON
-  } else {
-    //print error message if depart_loc and arrive_loc are not inputted
-    document.getElementById("Error").innerHTML =
-      "Please Enter A Valid Departure and Arrival Location";
+      await createTable(flights); //create table from JSON
+      
+    } else { //print error if depart location and arrival location 
+      document.getElementById("Error").innerHTML =
+        "Invalid Input. Please Try Again";
+    }
+  } catch {
+    //print error message if error occurs
+    if (document.getElementById("Error").value == "") {
+      document.getElementById("Error").innerHTML =
+        "Invalid Input. Please Try Again";
+    }
   }
 
   //clear input fields
