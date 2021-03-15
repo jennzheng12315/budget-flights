@@ -16,10 +16,9 @@
   <body>
     <h1>Budget Flights</h1>
     <form id="params">
-      <p></p>
       Departure Location: <input type="text" id="depart_loc" required />
       <br /><br />
-      Arrival Location: <input type="text" id="arrive_loc" /> <br /><br />
+      Arrival Location: <input type="text" id="arrive_loc" required /> <br /><br />
       Currency: <input type="text" id="currency" /> <br /><br />
       Departure Date:
       <input
@@ -41,5 +40,7 @@
 
       <button onclick="getParams()">Submit</button>
     </form>
+    <p id="Error"></p>
+    <p id="showData"></p>
   </body>
 </html>
