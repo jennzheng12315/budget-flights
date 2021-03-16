@@ -138,7 +138,7 @@ function getPrice(flightOption, flightCurrencies) {
 //takes JSON of flights as argument
 //creates a table of flight info
 //Note: Skyscanner API does not give inbound dates so I have excluded it from the table
-async function createTable(flights) {
+async function createTable(flights, depart_loc, arrive_loc) {
   let table = document.createElement("table"); //create table
   let col = [
     "Departure Date",
@@ -183,6 +183,7 @@ async function createTable(flights) {
     }
   }
 
+  document.getElementById("table_name").innerHTML = "Flights From " + depart_loc.toUpperCase() + " To " + arrive_loc.toUpperCase();
   let divContainer = document.getElementById("show_data");
   divContainer.innerHTML = "";
   divContainer.appendChild(table);
@@ -242,7 +243,7 @@ async function handleSubmit() {
         return_date
       );
 
-      await createTable(flights); //create table from JSON
+      await createTable(flights, depart_loc, arrive_loc); //create table from JSON
       
     } else { //print error if depart location and arrival location 
       document.getElementById("Error").innerHTML =
