@@ -246,13 +246,13 @@ async function handleSubmit() {
       
     } else { //print error if depart location and arrival location 
       document.getElementById("Error").innerHTML =
-        "Invalid Input. Please Try Again";
+        "Invalid Input. Please Try Again.";
     }
   } catch {
     //print error message if error occurs
     if (document.getElementById("Error").value == "") {
       document.getElementById("Error").innerHTML =
-        "Invalid Input. Please Try Again";
+        "Invalid Input. Please Try Again.";
     }
   }
 
