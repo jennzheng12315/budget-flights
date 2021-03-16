@@ -13,34 +13,58 @@
     <!-- import the webpage's javascript file -->
     <script src="/new-script.js" defer></script>
   </head>
-  <body>
-    <h1>Budget Flights</h1>
-    <form id="params">
-      Departure Location: <input type="text" id="depart_loc" required />
-      <br /><br />
-      Arrival Location: <input type="text" id="arrive_loc" required /> <br /><br />
-      Currency: <input type="text" id="currency" /> <br /><br />
-      Departure Date:
-      <input
-        type="date"
-        id="depart_date"
-        name="depart_date"
-        min="2021-01-01"
-        max="2030-12-31"
-      />
-      <br /><br />
-      Return Date:
-      <input
-        type="date"
-        id="return_date"
-        name="return_date"
-        min="2021-01-01"
-        max="2030-12-31"
-      />
 
-      <button onclick="handleSubmit()">Submit</button>
+  <body>
+    <h1>✈️Budget Flights✈️</h1>
+
+    <form id="params">
+      🗺️ &nbsp; Departure Location
+      <input type="text" id="depart_loc" required />
+
+      🗺️ &nbsp; Arrival Location
+      <input type="text" id="arrive_loc" required />
+
+      💰 &nbsp; Currency
+      <input type="text" id="currency" /> <br />
+
+      <div class="row">
+        <div class="column">
+          <div class="date-param">
+            📆 &nbsp; Departure Date
+          </div>
+          <input
+            type="date"
+            id="depart_date"
+            name="depart_date"
+            min="2021-01-01"
+            max="2030-12-31"
+          />
+        </div>
+
+        <div class="column">
+          <div class="date-param">
+            📆 &nbsp; Return Date
+          </div>
+          <input
+            type="date"
+            id="return_date"
+            name="return_date"
+            min="2021-01-01"
+            max="2030-12-31"
+          />
+        </div>
+
+        <div class="column">
+          <button class="button" onclick="handleSubmit()">🔎 &nbsp; SEARCH</button>
+        </div>
+      </div>
+
+      <br /><br />
     </form>
+
     <p id="Error"></p>
-    <p id="show_data"></p>
+    <table class="center" id="show_data"></table>
+    
+    <footer class="footer"> Made by Jennifer Zheng </footer>
   </body>
 </html>
