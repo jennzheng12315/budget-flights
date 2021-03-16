@@ -15,7 +15,9 @@
   </head>
 
   <body>
-    <h1>✈️Budget Flights✈️</h1>
+    <div id="top">
+      <h1>✈️Budget Flights✈️</h1>
+    </div>
 
     <form id="params">
       🗺️ &nbsp; Departure Location
@@ -55,7 +57,9 @@
         </div>
 
         <div class="column">
-          <button class="button" onclick="handleSubmit()">🔎 &nbsp; SEARCH</button>
+          <button class="button" onclick="handleSubmit()">
+            🔎 &nbsp; SEARCH
+          </button>
         </div>
       </div>
 
@@ -63,8 +67,9 @@
     </form>
 
     <p id="Error"></p>
+    <p id="table_name"></p>
     <table class="center" id="show_data"></table>
-    
-    <footer class="footer"> Made by Jennifer Zheng </footer>
+
+    <div class="footer"><a href="#top">Back to the top</a></div>
   </body>
 </html>
