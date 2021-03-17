@@ -19,6 +19,7 @@
       <h1>✈️Budget Flights✈️</h1>
     </div>
 
+    <!-- inputs at top of page -->
     <form id="params">
       🗺️ &nbsp; Departure Location
       <input type="text" id="depart_loc" required />
@@ -29,8 +30,10 @@
       💰 &nbsp; Currency
       <input type="text" id="currency" /> <br />
 
+      <!-- put dates and submit button side by side -->
       <div class="row">
         <div class="col span_1_of_3">
+          
           <div class="date-param">
             📆 &nbsp; Departure Date
           </div>
@@ -66,15 +69,27 @@
       <br /><br />
     </form>
 
+    <!-- error message from script.js -->
     <p id="Error"></p>
+    
+    <!-- table name created in script.js -->
     <p id="table_name"></p>
+    
+    <!-- sort table from lowest to highest price and vice versa -->
     <p id="sorting">
+      
+      <!-- sort drop down menu created in script.js -->
       <div id="sort_menu"> </div> 
+    
+      <!-- sort button visibility is changed in script.js -->
       <button class="button" id="sort_button" onclick="handleSort()">Sort</button>
     </p>
     
+    <!-- table of flights created in script.js -->
     <table class="center" id="show_data"></table>
 
+    <!-- footer links to the top of the page -->
     <div class="footer"><a href="#top">Back to the top</a></div>
+  
   </body>
 </html>
