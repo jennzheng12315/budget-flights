@@ -21,7 +21,7 @@ The web app will continue to create tables every time the user submits parameter
 * JavaScript
 * HTML
 * CSS
-* Glitch (deployment)
+* <a href="https://glitch.com/">Glitch</a> (deployment)
 * Emojis! 🥰
 
 ## ✏️ Notes: 
