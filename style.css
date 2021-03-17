@@ -24,10 +24,10 @@ h1 {
 
 form {
   text-align: left;
-  margin:  25px 100px 25px 100px;
+  margin: 25px 100px 25px 100px;
 }
 
-input[type=text] {
+input[type="text"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -36,15 +36,15 @@ input[type=text] {
   cursor: text;
 }
 
-input[type=date] {
+input[type="date"] {
   padding: 10px;
   width: 75%;
   font-size: 15px;
   box-shadow: 5px 5px 7px #d2e3f7;
   cursor: text;
-} 
+}
 
-input[type=date]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
@@ -68,13 +68,14 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 
 /* Creates pressed effect on button*/
-#submit:hover {background-color: #0665d4}
+#submit:hover {
+  background-color: #0665d4;
+}
 #submit:active {
   background-color: #0665d4;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
-
 
 .col {
   float: left;
@@ -82,19 +83,25 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 
 .span_3_of_3 {
-	width: 100%;
+  width: 100%;
 }
 .span_2_of_3 {
-	width: 66.1%;
+  width: 66.1%;
 }
 .span_1_of_3 {
-	width: 32.2%;
+  width: 32.2%;
 }
 
 /* Go full width when screen is less than 800 px */
 @media only screen and (max-width: 800px) {
-	.col { margin: 1% 0 1% 0%;}
-	.span_3_of_3, .span_2_of_3, .span_1_of_3 { width: 100%; }
+  .col {
+    margin: 1% 0 1% 0%;
+  }
+  .span_3_of_3,
+  .span_2_of_3,
+  .span_1_of_3 {
+    width: 100%;
+  }
 }
 
 /* Clear floats after the columns */
@@ -113,6 +120,7 @@ select {
   font-size: 15px;
   padding: 1px 5px 5px 5px;
   box-shadow: 5px 5px 7px #d2e3f7;
+  cursor: pointer;
 }
 
 label {
@@ -134,13 +142,16 @@ label {
   border-collapse: collapse;
 }
 
-#show_data th, td {
+#show_data th,
+td {
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #037bfc;
 }
 
-#show_data tr:hover {background-color:#f5f5f5;}
+#show_data tr:hover {
+  background-color: #f5f5f5;
+}
 
 #show_data th {
   font-family: helvetica, arial, sans-serif;
@@ -151,7 +162,8 @@ label {
 }
 
 #sort_menu {
-    display: inline-block;
+  display: inline-block;
+  cursor: pointer;
 }
 
 #sort_button {
@@ -170,13 +182,14 @@ label {
 }
 
 /* Creates pressed effect on button*/
-#sort_button:hover {background-color: #0665d4}
+#sort_button:hover {
+  background-color: #0665d4;
+}
 #sort_button:active {
   background-color: #0665d4;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
-
 
 .footer {
   text-align: center;
