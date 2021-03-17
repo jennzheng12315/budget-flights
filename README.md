@@ -8,4 +8,5 @@ With so many travel options available today, planning a trip can become overwhel
 
 ## 📋 About the Project
 
-This is a project using the Skyscanner API for Capital One's Software Engineering Summit Coding Challenge 2021.
+This project was made for Capital One's 2021 Software Engineering Summit Coding Challenge. It utilizes the <a href="https://rapidapi.com/skyscanner/api/skyscanner-flight-search/details">Skyscanner API</a> to retrieve flight information such as departure locations, arrival locations, airlines, dates, and prices. JavaScript fetches the API twice, uses the data to create a table of flights, and handles inputs and actions when buttons are pressed. HTML and CSS formats and stylizes the website.  
+  
