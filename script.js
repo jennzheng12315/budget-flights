@@ -4,9 +4,9 @@
 const REACT_APP_API_KEY = "902bd3bd07msh3bf09281e0f8dd9p1d823cjsn1cfe883a7323";
 
 //global variables to make my life easier for handleSort function
-let depart_loc = "";  //user inputted departure location
-let arrive_loc = "";  //user inputted arrival location
-let flights = "";    //promise of flight info
+let depart_loc = ""; //user inputted departure location
+let arrive_loc = ""; //user inputted arrival location
+let flights = ""; //promise of flight info
 let startingOption = "Lowest to Highest Price"; //starting option for sort drop down menu
 
 //takes location and currency as arguments
@@ -161,29 +161,37 @@ async function createTable(flights, depart_loc, arrive_loc) {
     tr.appendChild(th);
   }
 
-  for (let i = 0; i < Object.keys(flights.Quotes).length; i++) {
-    //loop through every flight
-    tr = table.insertRow(-1); //create row
+  //prints message if there are no flights
+  if (Object.keys(flights.Quotes).length == 0) {
+    tr = table.insertRow(-1);
+    tr.innerHTML = "&nbsp;";
+    tr = table.insertRow(-1);
+    tr.innerHTML = "No Flights Found";
+  } else {
+    for (let i = 0; i < Object.keys(flights.Quotes).length; i++) {
+      //loop through every flight
+      tr = table.insertRow(-1); //create row
 
-    for (let j = 0; j < col.length; j++) {
-      //loop through every column
-      let tabCell = tr.insertCell(-1); //create cell
+      for (let j = 0; j < col.length; j++) {
+        //loop through every column
+        let tabCell = tr.insertCell(-1); //create cell
 
-      if (j == 0) {
-        //departure date column
-        tabCell.innerHTML = getDepartureDate(flights.Quotes[i]);
-      } else if (j == 1) {
-        //departure location column
-        tabCell.innerHTML = getDepartLoc(flights.Quotes[i], flights.Places);
-      } else if (j == 2) {
-        //arrival location column
-        tabCell.innerHTML = getArrivalLoc(flights.Quotes[i], flights.Places);
-      } else if (j == 3) {
-        //airline column
-        tabCell.innerHTML = getAirline(flights.Quotes[i], flights.Carriers);
-      } else {
-        //price column
-        tabCell.innerHTML = getPrice(flights.Quotes[i], flights.Currencies);
+        if (j == 0) {
+          //departure date column
+          tabCell.innerHTML = getDepartureDate(flights.Quotes[i]);
+        } else if (j == 1) {
+          //departure location column
+          tabCell.innerHTML = getDepartLoc(flights.Quotes[i], flights.Places);
+        } else if (j == 2) {
+          //arrival location column
+          tabCell.innerHTML = getArrivalLoc(flights.Quotes[i], flights.Places);
+        } else if (j == 3) {
+          //airline column
+          tabCell.innerHTML = getAirline(flights.Quotes[i], flights.Carriers);
+        } else {
+          //price column
+          tabCell.innerHTML = getPrice(flights.Quotes[i], flights.Currencies);
+        }
       }
     }
   }
@@ -219,29 +227,37 @@ async function createReverseTable(flights, depart_loc, arrive_loc) {
     tr.appendChild(th);
   }
 
-  for (let i = Object.keys(flights.Quotes).length - 1; i > 0; i--) {
-    //loop through every flight
-    tr = table.insertRow(-1); //create row
+  //prints message if there are no flights
+  if (Object.keys(flights.Quotes).length == 0) {
+    tr = table.insertRow(-1);
+    tr.innerHTML = "&nbsp;";
+    tr = table.insertRow(-1);
+    tr.innerHTML = "No Flights Found";
+  } else {
+    for (let i = Object.keys(flights.Quotes).length - 1; i > 0; i--) {
+      //loop through every flight
+      tr = table.insertRow(-1); //create row
 
-    for (let j = 0; j < col.length; j++) {
-      //loop through every column
-      let tabCell = tr.insertCell(-1); //create cell
+      for (let j = 0; j < col.length; j++) {
+        //loop through every column
+        let tabCell = tr.insertCell(-1); //create cell
 
-      if (j == 0) {
-        //departure date column
-        tabCell.innerHTML = getDepartureDate(flights.Quotes[i]);
-      } else if (j == 1) {
-        //departure location column
-        tabCell.innerHTML = getDepartLoc(flights.Quotes[i], flights.Places);
-      } else if (j == 2) {
-        //arrival location column
-        tabCell.innerHTML = getArrivalLoc(flights.Quotes[i], flights.Places);
-      } else if (j == 3) {
-        //airline column
-        tabCell.innerHTML = getAirline(flights.Quotes[i], flights.Carriers);
-      } else {
-        //price column
-        tabCell.innerHTML = getPrice(flights.Quotes[i], flights.Currencies);
+        if (j == 0) {
+          //departure date column
+          tabCell.innerHTML = getDepartureDate(flights.Quotes[i]);
+        } else if (j == 1) {
+          //departure location column
+          tabCell.innerHTML = getDepartLoc(flights.Quotes[i], flights.Places);
+        } else if (j == 2) {
+          //arrival location column
+          tabCell.innerHTML = getArrivalLoc(flights.Quotes[i], flights.Places);
+        } else if (j == 3) {
+          //airline column
+          tabCell.innerHTML = getAirline(flights.Quotes[i], flights.Carriers);
+        } else {
+          //price column
+          tabCell.innerHTML = getPrice(flights.Quotes[i], flights.Currencies);
+        }
       }
     }
   }
@@ -258,29 +274,29 @@ async function createReverseTable(flights, depart_loc, arrive_loc) {
 
 //runs when sort button is pressed
 function handleSort() {
-  
   let sortMethod = document.getElementById("sortMethod");
   let option = sortMethod.options[sortMethod.selectedIndex].text; //gets chosen option
-    
+
   //to prevent from making new unneccessary tables, only create a new table if the
   //startingOption is opposite from the chosen option
-  
-  if (option == "Highest to Lowest Price" && startingOption == "Lowest to Highest Price") {
-    
-    document.getElementById("show_data").value = "";  //reset table
-    createReverseTable(flights, depart_loc, arrive_loc);  //create new table with reverse order
-    startingOption = "Highest to Lowest Price";  //startingOption is now the chosen option
-    
+
+  if (
+    option == "Highest to Lowest Price" &&
+    startingOption == "Lowest to Highest Price"
+  ) {
+    document.getElementById("show_data").value = ""; //reset table
+    createReverseTable(flights, depart_loc, arrive_loc); //create new table with reverse order
+    startingOption = "Highest to Lowest Price"; //startingOption is now the chosen option
   }
-  
-  if (option == "Lowest to Highest Price" && startingOption == "Highest to Lowest Price") {
-    
-    document.getElementById("show_data").value = "";  //reset table
-    createTable(flights, depart_loc, arrive_loc);  //create new table with default order
-    startingOption = "Lowest to Highest Price";  //startingOption is now the chosen option
-    
+
+  if (
+    option == "Lowest to Highest Price" &&
+    startingOption == "Highest to Lowest Price"
+  ) {
+    document.getElementById("show_data").value = ""; //reset table
+    createTable(flights, depart_loc, arrive_loc); //create new table with default order
+    startingOption = "Lowest to Highest Price"; //startingOption is now the chosen option
   }
-    
 }
 
 //creates sort drop down menu
@@ -307,23 +323,20 @@ function createSort() {
     .getElementById("sort_menu")
     .appendChild(label)
     .appendChild(select);
-  
 }
 
 //runs when search button is pressed
 async function handleSubmit() {
   event.preventDefault();
-  
+
   //makes sure button is hidden at the beginning
   document.getElementById("sort_button").style.visibility = "hidden";
-  
+
   //deletes old sort drop down menu so copies do not appear
-  if (document.getElementById("sortMethod") != null){
-      document.getElementById("sortMethod").remove();
+  if (document.getElementById("sortMethod") != null) {
+    document.getElementById("sortMethod").remove();
   }
-  
-  //let depart_loc;
-  //let arrive_loc;
+
   let currency;
   let depart_date;
   let return_date;
@@ -331,14 +344,13 @@ async function handleSubmit() {
   let depart_placeID;
   let arrive_placeID;
 
-  //let flights;
-
   //default for parameters
   depart_loc = "";
   arrive_loc = "";
   currency = "USD";
   depart_date = "anytime";
   return_date = "anytime";
+
   try {
     //get inputs if they not blank
     if (document.getElementById("depart_loc").value != "") {
@@ -366,6 +378,7 @@ async function handleSubmit() {
     ) {
       document.getElementById("Error").innerHTML = ""; //remove error message
 
+      //gets promise of flights
       flights = await getFlights(
         depart_placeID,
         arrive_placeID,
@@ -396,8 +409,7 @@ async function handleSubmit() {
   document.getElementById("currency").value = "";
   document.getElementById("depart_date").value = "";
   document.getElementById("return_date").value = "";
-  
+
   //clear table
   document.getElementById("show_data").value = "";
-  
 }
