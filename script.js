@@ -3,6 +3,12 @@
 // I believe an .env file does not work for vanilla JavaScript
 const REACT_APP_API_KEY = "902bd3bd07msh3bf09281e0f8dd9p1d823cjsn1cfe883a7323";
 
+//global variables to make my life easier for handleSort function
+let depart_loc = "";  //user inputted departure location
+let arrive_loc = "";  //user inputted arrival location
+let flights = "";    //promise of flight info
+let startingOption = "Lowest to Highest Price"; //starting option for sort drop down menu
+
 //takes location and currency as arguments
 //finds the Skyscanner placeID of the location
 async function getPlace(location, currency) {
@@ -67,8 +73,7 @@ async function getFlights(
       "?inboundpartialdate=" +
       return_date,
     reqOptions
-  )
-    .then(flights_response => flights_response.json()); //turn promise into JSON
+  ).then(flights_response => flights_response.json()); //turn promise into JSON
 
   return flights_response;
 }
@@ -136,7 +141,7 @@ function getPrice(flightOption, flightCurrencies) {
 }
 
 //takes JSON of flights as argument
-//creates a table of flight info
+//creates a table of flight info that is ordered by lowest to highest price
 //Note: Skyscanner API does not give inbound dates so I have excluded it from the table
 async function createTable(flights, depart_loc, arrive_loc) {
   let table = document.createElement("table"); //create table
@@ -183,16 +188,142 @@ async function createTable(flights, depart_loc, arrive_loc) {
     }
   }
 
-  document.getElementById("table_name").innerHTML = "Flights From " + depart_loc.toUpperCase() + " To " + arrive_loc.toUpperCase();
+  document.getElementById("table_name").innerHTML =
+    "Flights From " +
+    depart_loc.toUpperCase() +
+    " To " +
+    arrive_loc.toUpperCase();
   let divContainer = document.getElementById("show_data");
   divContainer.innerHTML = "";
   divContainer.appendChild(table);
 }
 
+//takes JSON of flights as argument
+//creates a table of flight info that is ordered from highest to lowest price
+//Note: Skyscanner API does not give inbound dates so I have excluded it from the table
+async function createReverseTable(flights, depart_loc, arrive_loc) {
+  let table = document.createElement("table"); //create table
+  let col = [
+    "Departure Date",
+    "Departure Location",
+    "Arrival Location",
+    "Airline",
+    "Price"
+  ];
+
+  //create headers
+  let tr = table.insertRow(-1);
+  for (let i = 0; i < col.length; i++) {
+    let th = document.createElement("th");
+    th.innerHTML = col[i];
+    tr.appendChild(th);
+  }
+
+  for (let i = Object.keys(flights.Quotes).length - 1; i > 0; i--) {
+    //loop through every flight
+    tr = table.insertRow(-1); //create row
+
+    for (let j = 0; j < col.length; j++) {
+      //loop through every column
+      let tabCell = tr.insertCell(-1); //create cell
+
+      if (j == 0) {
+        //departure date column
+        tabCell.innerHTML = getDepartureDate(flights.Quotes[i]);
+      } else if (j == 1) {
+        //departure location column
+        tabCell.innerHTML = getDepartLoc(flights.Quotes[i], flights.Places);
+      } else if (j == 2) {
+        //arrival location column
+        tabCell.innerHTML = getArrivalLoc(flights.Quotes[i], flights.Places);
+      } else if (j == 3) {
+        //airline column
+        tabCell.innerHTML = getAirline(flights.Quotes[i], flights.Carriers);
+      } else {
+        //price column
+        tabCell.innerHTML = getPrice(flights.Quotes[i], flights.Currencies);
+      }
+    }
+  }
+
+  document.getElementById("table_name").innerHTML =
+    "Flights From " +
+    depart_loc.toUpperCase() +
+    " To " +
+    arrive_loc.toUpperCase();
+  let divContainer = document.getElementById("show_data");
+  divContainer.innerHTML = "";
+  divContainer.appendChild(table);
+}
+
+//runs when sort button is pressed
+function handleSort() {
+  
+  let sortMethod = document.getElementById("sortMethod");
+  let option = sortMethod.options[sortMethod.selectedIndex].text; //gets chosen option
+    
+  //to prevent from making new unneccessary tables, only create a new table if the
+  //startingOption is opposite from the chosen option
+  
+  if (option == "Highest to Lowest Price" && startingOption == "Lowest to Highest Price") {
+    
+    document.getElementById("show_data").value = "";  //reset table
+    createReverseTable(flights, depart_loc, arrive_loc);  //create new table with reverse order
+    startingOption = "Highest to Lowest Price";  //startingOption is now the chosen option
+    
+  }
+  
+  if (option == "Lowest to Highest Price" && startingOption == "Highest to Lowest Price") {
+    
+    document.getElementById("show_data").value = "";  //reset table
+    createTable(flights, depart_loc, arrive_loc);  //create new table with default order
+    startingOption = "Lowest to Highest Price";  //startingOption is now the chosen option
+    
+  }
+    
+}
+
+//creates sort drop down menu
+function createSort() {
+  let values = ["Lowest to Highest Price", "Highest to Lowest Price"];
+
+  //create drop down menu
+  let select = document.createElement("select");
+  select.name = "sortMethod";
+  select.id = "sortMethod";
+
+  //add options
+  for (const val of values) {
+    let option = document.createElement("option");
+    option.value = val;
+    option.text = val.charAt(0).toUpperCase() + val.slice(1);
+    select.appendChild(option);
+  }
+
+  let label = document.createElement("label");
+  label.htmlFor = "sortMethod";
+
+  document
+    .getElementById("sort_menu")
+    .appendChild(label)
+    .appendChild(select);
+  
+}
+
+//runs when search button is pressed
 async function handleSubmit() {
   event.preventDefault();
-  let depart_loc;
-  let arrive_loc;
+  
+  //makes sure button is hidden at the beginning
+  document.getElementById("sort_button").style.visibility = "hidden";
+  
+  //deletes old sort drop down menu so copies do not appear
+  if (document.getElementById("sortMethod") != null){
+      document.getElementById("sortMethod").remove();
+  }
+  
+  //let depart_loc;
+  //let arrive_loc;
   let currency;
   let depart_date;
   let return_date;
@@ -200,7 +331,7 @@ async function handleSubmit() {
   let depart_placeID;
   let arrive_placeID;
 
-  let flights;
+  //let flights;
 
   //default for parameters
   depart_loc = "";
@@ -243,9 +374,11 @@ async function handleSubmit() {
         return_date
       );
 
+      createSort(); //create sort drop down menu
+      document.getElementById("sort_button").style.visibility = "visible";
       await createTable(flights, depart_loc, arrive_loc); //create table from JSON
-      
-    } else { //print error if depart location and arrival location 
+    } else {
+      //print error if depart location and arrival location
       document.getElementById("Error").innerHTML =
         "Invalid Input. Please Try Again.";
     }
@@ -263,5 +396,8 @@ async function handleSubmit() {
   document.getElementById("currency").value = "";
   document.getElementById("depart_date").value = "";
   document.getElementById("return_date").value = "";
+  
+  //clear table
   document.getElementById("show_data").value = "";
+  
 }
