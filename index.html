@@ -30,7 +30,7 @@
       <input type="text" id="currency" /> <br />
 
       <div class="row">
-        <div class="column">
+        <div class="col span_1_of_3">
           <div class="date-param">
             📆 &nbsp; Departure Date
           </div>
@@ -43,7 +43,7 @@
           />
         </div>
 
-        <div class="column">
+        <div class="col span_1_of_3">
           <div class="date-param">
             📆 &nbsp; Return Date
           </div>
@@ -56,8 +56,8 @@
           />
         </div>
 
-        <div class="column">
-          <button class="button" onclick="handleSubmit()">
+        <div class="col span_1_of_3">
+          <button class="button" id="submit" onclick="handleSubmit()">
             🔎 &nbsp; SEARCH
           </button>
         </div>
@@ -68,6 +68,11 @@
 
     <p id="Error"></p>
     <p id="table_name"></p>
+    <p id="sorting">
+      <div id="sort_menu"> </div> 
+      <button class="button" id="sort_button" onclick="handleSort()">Sort</button>
+    </p>
+    
     <table class="center" id="show_data"></table>
 
     <div class="footer"><a href="#top">Back to the top</a></div>
