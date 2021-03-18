@@ -29,7 +29,7 @@ The web app will continue to create tables every time the user submits parameter
 * While the web app takes an input for Return Date, it is not used since the API does not handle the information.
 
 ## 📌 Next Steps
-* Improve upon design of website
+* Improve upon design of web page
 * Make it more evident that the departure/arrival location fields are required and the rest are optional
 * Prevent the sort dropdown menu and button from disappearing when a table is on the screen and the user enters an invalid input
 * Have the error message specifically say what the error is (ex. if user does not enter a valid departure location, the error message would say "invalid departure location")
