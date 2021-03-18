@@ -24,9 +24,13 @@ The web app will continue to create tables every time the user submits parameter
 * <a href="https://glitch.com/">Glitch</a> (deployment)
 * Emojis! 🥰
 
-## ✏️ Notes: 
+## ✏️ Notes 
 * The departure/arrival location fields are required. The default currency preference is USD and the default departure/return date is anytime if nothing is entered in those fields.
 * While the web app takes an input for Return Date, it is not used since the API does not handle the information.
-* The sort dropdown menu and the sort button disappears when an error message appears, regardless if there is a table on the screen or not. I did not have time to fix this.
 
-### Enjoy! 😀
+## 📌 Next Steps
+* Improve upon design of website
+* Make it more evident that the departure/arrival location fields are required and the rest are optional
+* Prevent the sort dropdown menu and button from disappearing when a table is on the screen and the user enters an invalid input
+* Have the error message specifically say what the error is (ex. if user does not enter a valid departure location, the error message would say "invalid departure location")
+* Perhaps link the flights to their airline's main homepage since the API does not provide direct links to websites where users can book a flight.
