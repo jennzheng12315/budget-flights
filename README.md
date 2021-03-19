@@ -14,7 +14,7 @@ The web app will continue to create tables every time the user submits parameter
 
 ![Searching Flights](https://user-images.githubusercontent.com/71287285/111535495-8b054580-873f-11eb-97c5-b3c2c888f83e.PNG)  
    
-![Flights Results](https://user-images.githubusercontent.com/71287285/111808714-a50f6700-88aa-11eb-9764-11fcae397fde.PNG)
+![Flights Results](https://user-images.githubusercontent.com/71287285/111809146-0c2d1b80-88ab-11eb-95ee-6e0919b2ad93.PNG)
 
 ## 🛠️ Built with 
 * <a href="https://rapidapi.com/skyscanner/api/skyscanner-flight-search/details">Skyscanner API</a>
