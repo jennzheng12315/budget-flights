@@ -171,6 +171,11 @@ async function createTable(flights, depart_loc, arrive_loc) {
     for (let i = 0; i < Object.keys(flights.Quotes).length; i++) {
       //loop through every flight
       tr = table.insertRow(-1); //create row
+      
+      //give class name to cheapest flights for color change in HTML
+      if (i == 0){
+        tr.className = "cheapest";
+      }
 
       for (let j = 0; j < col.length; j++) {
         //loop through every column
@@ -234,9 +239,14 @@ async function createReverseTable(flights, depart_loc, arrive_loc) {
     tr = table.insertRow(-1);
     tr.innerHTML = "No Flights Found";
   } else {
-    for (let i = Object.keys(flights.Quotes).length - 1; i > 0; i--) {
+    for (let i = Object.keys(flights.Quotes).length - 1; i >= 0; i--) {
       //loop through every flight
       tr = table.insertRow(-1); //create row
+      
+      //give class name to cheapest flights for color change in HTML
+      if (i == 0){
+        tr.className = "cheapest";
+      }
 
       for (let j = 0; j < col.length; j++) {
         //loop through every column
