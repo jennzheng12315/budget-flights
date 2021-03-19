@@ -1,7 +1,7 @@
-//Note: PLEASE DO NOT USE KEY
-// I would make the key an environment variable but I'm not sure how to do it with vanilla JavaScript
-// I believe an .env file does not work for vanilla JavaScript
-const REACT_APP_API_KEY = "902bd3bd07msh3bf09281e0f8dd9p1d823cjsn1cfe883a7323";
+// Note: I would include the API key as an environment variable but I'm not sure how to do it with vanilla JavaScript
+// since an .env file does not work. Instead, I removed it from the code on GitHub. 
+// I did not remove it from the code in Glitch so the web app still works.
+const REACT_APP_API_KEY = "insert_key_here";
 
 //global variables to make my life easier for handleSort function
 let depart_loc = ""; //user inputted departure location
