@@ -25,7 +25,7 @@ The web app will continue to create tables every time the user submits parameter
 * Emojis! 🥰
 
 ## ✏️ Notes 
-* The departure/arrival location fields are required. The default currency preference is USD and the default departure/return date is anytime if nothing is entered in those fields.
+* The departure/arrival location fields are required and can accept full location names or airport codes. The default currency preference is USD and the default departure/return date is anytime if nothing is entered in those fields.
 * While the web app takes an input for Return Date, it is not used since the API does not handle the information.
 
 ## 📌 Next Steps
