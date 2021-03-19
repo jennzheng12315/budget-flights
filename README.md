@@ -30,7 +30,6 @@ The web app will continue to create tables every time the user submits parameter
 
 ## 📌 Next Steps
 * Improve upon design of web page
-* Make it more evident that the departure/arrival location fields are required and the rest are optional
 * Prevent the sort dropdown menu and button from disappearing when a table is on the screen and the user enters an invalid input
 * Have the error message specifically say what the error is (ex. if user does not enter a valid departure location, the error message would say "invalid departure location")
 * Perhaps link the flights to their airline's main homepage since the API does not provide direct links to websites where users can book a flight.
