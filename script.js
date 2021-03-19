@@ -1,5 +1,5 @@
 //Note: PLEASE DO NOT USE KEY
-// I would make the key an environment variable but I'm not sure how to do it with JavaScript
+// I would make the key an environment variable but I'm not sure how to do it with vanilla JavaScript
 // I believe an .env file does not work for vanilla JavaScript
 const REACT_APP_API_KEY = "902bd3bd07msh3bf09281e0f8dd9p1d823cjsn1cfe883a7323";
 
@@ -70,7 +70,7 @@ async function getFlights(
       arrival_location +
       "/" +
       depart_date +
-      "?inboundpartialdate=" +
+      "/" +
       return_date,
     reqOptions
   ).then(flights_response => flights_response.json()); //turn promise into JSON
