@@ -137,6 +137,11 @@ label {
   margin-bottom: 50px;
 }
 
+.cheapest {
+  font-style: bold;
+  color: #06c261;
+}
+
 #show_data {
   font-family: Georgia, serif;
   border-collapse: collapse;
