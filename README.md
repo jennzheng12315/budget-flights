@@ -8,7 +8,7 @@ With so many travel options available today, planning a trip can become overwhel
 
 ## 📋 About the Project
 
-This project was made for Capital One's 2021 Software Engineering Summit Coding Challenge. Users enter their departure location, arrival location, currency preference, departure date, and return date. Flight info is retrieved using the <a href="https://rapidapi.com/skyscanner/api/skyscanner-flight-search/details">Skyscanner API</a> and presented in a table. The flights are automatically sorted from lowest to highest price, but that can be reversed using a dropdown menu. The cheapest flight is highlighted by green text. An error message appears if invalid inputs are entered. 
+This project was a winning submission for the final round of Capital One's 2021 Software Engineering Summit. Users enter their departure location, arrival location, currency preference, departure date, and return date. Flight info is retrieved using the <a href="https://rapidapi.com/skyscanner/api/skyscanner-flight-search/details">Skyscanner API</a> and presented in a table. The flights are automatically sorted from lowest to highest price, but that can be reversed using a dropdown menu. The cheapest flight is highlighted by green text. An error message appears if invalid inputs are entered. 
 
 For the design of the web app, I aimed for a more simplistic, personable feeling with the use of emojis and plain text, input fields, and easily readable tables. In the future, I may expand upon this.
 
