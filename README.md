@@ -1,6 +1,6 @@
 # ✈️Budget Flights✈️ 
 ### Find cheap, affordable flights for all your travel needs
-#### Note: Unfortunately, the Skyscanner API is not available anymore so flight information is not generated anymore. However, you can still view the site below: 
+#### Note: Unfortunately, the Skyscanner API is not available anymore so flight information will not be shown upon clicking the submit button. However, you can still view the site below: 
 
 **<a href="https://budget-flights-cap1.glitch.me">View Web App</a>**
 
